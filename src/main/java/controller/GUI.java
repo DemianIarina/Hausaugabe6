@@ -18,13 +18,13 @@ public class GUI extends Application {
     @Override
     public void start(Stage primaryStage) throws IOException {
 
-        URL fxmlLocation = GUI.class.getResource("studentLogin.fxml");
+        URL fxmlLocation = GUI.class.getResource("loginWindow.fxml");
 
         FXMLLoader loader = new FXMLLoader(fxmlLocation);
 
         Parent root = loader.load();
         primaryStage.setTitle("Login As");
-        primaryStage.setScene(new Scene(root, 520, 250));
+        primaryStage.setScene(new Scene(root, 601, 304));
         primaryStage.show();
     }
 }

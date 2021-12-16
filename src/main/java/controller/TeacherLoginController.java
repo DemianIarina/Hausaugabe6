@@ -1,22 +1,23 @@
 package controller;
 
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
-import repository.StudentRepository;
-
 
 import java.io.File;
 import java.net.URL;
 import java.util.Objects;
 import java.util.ResourceBundle;
 
-public class StudentLoginController implements Initializable{
+public class TeacherLoginController implements Initializable {
     @FXML
     private Button cancelButton;
 
@@ -27,7 +28,7 @@ public class StudentLoginController implements Initializable{
     private Label loginMessageLabel;
 
     @FXML
-    private ImageView studentHeaderImageView;
+    private ImageView teacherHeaderImageView;
 
     @FXML
     private ImageView lockImageView;
@@ -50,9 +51,9 @@ public class StudentLoginController implements Initializable{
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
-        File studentsHeaderFile = new File("images/students header2.jpg");
-        javafx.scene.image.Image studentsHeaderImage = new Image(studentsHeaderFile.toURI().toString());
-        studentHeaderImageView.setImage(studentsHeaderImage);
+        File teachersHeaderFile = new File("images/teachers header2.png");
+        javafx.scene.image.Image teachersHeaderImage = new Image(teachersHeaderFile.toURI().toString());
+        teacherHeaderImageView.setImage(teachersHeaderImage);
 
         File lockFile = new File("images/lock.png");
         javafx.scene.image.Image lockImage = new Image(lockFile.toURI().toString());
@@ -62,9 +63,27 @@ public class StudentLoginController implements Initializable{
     public void validateLogin(){
         if(Objects.equals(nameTextField.getText(), "Maria")){
             loginMessageLabel.setText("Congratulations!");
+            createTeacherMenuWindow();
         }
         else {
             loginMessageLabel.setText("Invalid login. Please try again.");
+        }
+    }
+
+    public void createTeacherMenuWindow(){
+        try{
+            URL fxmlLocation = GUI.class.getResource("teacherMenu.fxml");
+            FXMLLoader loader = new FXMLLoader(fxmlLocation);
+            Parent root = loader.load();
+
+            Stage studentLoginStage = new Stage();
+            studentLoginStage.setTitle("Teacher menu");
+            studentLoginStage.setScene(new Scene(root, 600, 400));
+            studentLoginStage.show();
+
+        }catch (Exception e){
+            e.printStackTrace();
+            e.getCause();
         }
     }
 }

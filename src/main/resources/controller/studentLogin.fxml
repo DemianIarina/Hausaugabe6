@@ -15,7 +15,7 @@
          <children>
             <ImageView fx:id="studentHeaderImageView" fitHeight="135.0" fitWidth="600.0">
                <image>
-                  <Image url="@../../../../images/students header.jpg" />
+                  <Image url="@../../../../images/students header2.jpg" />
                </image>
             </ImageView>
          </children>

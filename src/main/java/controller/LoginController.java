@@ -1,8 +1,11 @@
 package controller;
 
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.ImageCursor;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
@@ -28,13 +31,37 @@ public class LoginController implements Initializable {
     private ImageView teacherImageView;
 
     public void pressLoginStudent(){
-        Stage stage = (Stage) loginStudent.getScene().getWindow();
-        stage.close();
+        try{
+            URL fxmlLocation = GUI.class.getResource("studentLogin.fxml");
+            FXMLLoader loader = new FXMLLoader(fxmlLocation);
+            Parent root = loader.load();
+
+            Stage studentLoginStage = new Stage();
+            studentLoginStage.setTitle("Student login");
+            studentLoginStage.setScene(new Scene(root, 601, 304));
+            studentLoginStage.show();
+
+        }catch (Exception e){
+            e.printStackTrace();
+            e.getCause();
+        }
     }
 
     public void pressLoginTeacher(){
-        Stage stage = (Stage) loginTeacher.getScene().getWindow();
-        stage.close();
+        try{
+            URL fxmlLocation = GUI.class.getResource("teacherLogin.fxml");
+            FXMLLoader loader = new FXMLLoader(fxmlLocation);
+            Parent root = loader.load();
+
+            Stage studentLoginStage = new Stage();
+            studentLoginStage.setTitle("Teacher login");
+            studentLoginStage.setScene(new Scene(root, 601, 304));
+            studentLoginStage.show();
+
+        }catch (Exception e){
+            e.printStackTrace();
+            e.getCause();
+        }
     }
 
     @Override
@@ -47,6 +74,4 @@ public class LoginController implements Initializable {
         Image teacherImage = new Image(teacherFile.toURI().toString());
         teacherImageView.setImage(teacherImage);
     }
-
-
 }
