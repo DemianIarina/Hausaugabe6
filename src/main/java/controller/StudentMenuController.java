@@ -9,8 +9,11 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import model.Course;
 import model.Student;
+import repository.CourseRepository;
 import repository.StudentRepository;
+import repository.TeacherRepository;
 
 import java.io.File;
 import java.net.URL;
@@ -19,7 +22,16 @@ import java.util.ResourceBundle;
 
 public class StudentMenuController implements Initializable {
     final StudentRepository studentRepository = new StudentRepository();
-    ObservableList<Student> students = FXCollections.observableArrayList(studentRepository.getAll());
+    final CourseRepository courseRepository = new CourseRepository();
+    final TeacherRepository teacherRepository = new TeacherRepository();
+    RegistrationSystem registrationSystem = new RegistrationSystem(courseRepository,studentRepository,teacherRepository);
+
+    //ObservableList<Student> students = FXCollections.observableArrayList(studentRepository.getAll());
+
+    private Student loginedStudent;
+
+    @FXML
+    private Label studentNameLabel;
 
     @FXML
     private ImageView studentImageView;
@@ -62,19 +74,41 @@ public class StudentMenuController implements Initializable {
         checkImageView2.setImage(checkImage);
 
         creditsTextArea.setEditable(false);
-        creditsTextArea.setText("0");
 
     }
 
     public void validateRegister(){
-        if(Objects.equals(courseTextField.getText(), "BD")){
-            //todo apelat registration system
-            registerMessageLabel.setText("Congratulations!");
+        Course course = courseRepository.getAll().stream()
+                .filter(elem -> Objects.equals(elem.getName(), courseTextField.getText()))
+                .findAny()
+                .orElse(null);
+        if(course == null){
+            registerMessageLabel.setText("No such course. Please try again.");
         }
         else {
-            registerMessageLabel.setText("Invalid course name. Please try again.");
+            try {
+                registrationSystem.register(course, loginedStudent);
+                registerMessageLabel.setText("Congratulation you have been enrolled!");
+                creditsTextArea.setText(String.valueOf(loginedStudent.getTotalCredits()));
+            } catch (AlreadyExistingException e) {
+                registerMessageLabel.setText("Already enrolled to this course. \n" +
+                        "Please try again.");
+            }
+            catch (TooManyCreditsException e2){
+                registerMessageLabel.setText("Credit limits been reached. \n" +
+                        "Can not enroll.");
+            }
         }
     }
 
 
+    public void initData(String studentName) {
+        loginedStudent = studentRepository.getAll().stream()
+                .filter(elem -> Objects.equals(elem.getFirstName(), studentName))
+                .findAny()
+                .orElse(null);
+        assert loginedStudent != null;
+        creditsTextArea.setText(String.valueOf(loginedStudent.getTotalCredits()));
+        studentNameLabel.setText("Hello " + studentName + "!");
+    }
 }

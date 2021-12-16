@@ -1,5 +1,7 @@
 package controller;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -11,6 +13,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
+import model.Student;
 import repository.StudentRepository;
 
 
@@ -20,6 +23,9 @@ import java.util.Objects;
 import java.util.ResourceBundle;
 
 public class StudentLoginController implements Initializable{
+    final StudentRepository studentRepository = new StudentRepository();
+    ObservableList<Student> students = FXCollections.observableArrayList(studentRepository.getAll());
+
     @FXML
     private Button cancelButton;
 
@@ -63,16 +69,16 @@ public class StudentLoginController implements Initializable{
     }
 
     public void validateLogin(){
-        if(Objects.equals(nameTextField.getText(), "Maria")){
+        if(studentRepository.getAll().stream().anyMatch(elem -> Objects.equals(elem.getFirstName(), nameTextField.getText()))){
             loginMessageLabel.setText("Congratulations!");
-            createStudentMenuWindow();
+            createStudentMenuWindow(nameTextField.getText());
         }
         else {
             loginMessageLabel.setText("Invalid login. Please try again.");
         }
     }
 
-    public void createStudentMenuWindow(){
+    public void createStudentMenuWindow(String studentName){
         try{
             URL fxmlLocation = GUI.class.getResource("studentMenu.fxml");
             FXMLLoader loader = new FXMLLoader(fxmlLocation);
@@ -80,7 +86,11 @@ public class StudentLoginController implements Initializable{
 
             Stage teacherLoginStage = new Stage();
             teacherLoginStage.setTitle("Student menu");
-            teacherLoginStage.setScene(new Scene(root, 600, 400));
+            teacherLoginStage.setScene(new Scene(root, 554, 414));
+
+            StudentMenuController controller = loader.getController();
+            controller.initData(studentName);
+
             teacherLoginStage.show();
 
         }catch (Exception e){

@@ -43,7 +43,7 @@ public class RegistrationSystem {
      * @return true if all repos have been updated successfully
      * @throws IllegalArgumentException if the given student or course does not exist in the according repository
      */
-    public boolean register(Course course, Student student) throws IllegalArgumentException {
+    public boolean register(Course course, Student student) throws IllegalArgumentException, NonexistentArgumentException, AlreadyExistingException {
         if(students.getAll().stream().noneMatch(elem -> elem.getId() == student.getId())){
             throw new NonexistentArgumentException("No such student");
         }
