@@ -22,6 +22,9 @@ public class TeacherLoginController implements Initializable {
     private Button cancelButton;
 
     @FXML
+    private Button loginButton;
+
+    @FXML
     private TextField nameTextField;
 
     @FXML
@@ -76,10 +79,10 @@ public class TeacherLoginController implements Initializable {
             FXMLLoader loader = new FXMLLoader(fxmlLocation);
             Parent root = loader.load();
 
-            Stage studentLoginStage = new Stage();
-            studentLoginStage.setTitle("Teacher menu");
-            studentLoginStage.setScene(new Scene(root, 600, 400));
-            studentLoginStage.show();
+            Stage teacherLoginStage = new Stage();
+            teacherLoginStage.setTitle("Teacher menu");
+            teacherLoginStage.setScene(new Scene(root, 600, 400));
+            teacherLoginStage.show();
 
         }catch (Exception e){
             e.printStackTrace();

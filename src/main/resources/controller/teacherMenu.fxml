@@ -19,7 +19,7 @@
                   <Font name="System Bold" size="24.0" />
                </font>
             </Label>
-            <ImageView fitHeight="62.0" fitWidth="75.0" layoutX="14.0" layoutY="17.0">
+            <ImageView fx:id="teacherImageView" fitHeight="62.0" fitWidth="75.0" layoutX="14.0" layoutY="17.0">
                <image>
                   <Image url="@../../../../images/teacher.jpg" />
                </image>
@@ -35,7 +35,7 @@
                   <Font size="18.0" />
                </font>
             </Label>
-            <ImageView fitHeight="48.0" fitWidth="46.0" layoutX="53.0" layoutY="25.0">
+            <ImageView fx:id="checkImageView" fitHeight="48.0" fitWidth="46.0" layoutX="53.0" layoutY="25.0">
                <image>
                   <Image url="@../../../../images/check.png" />
                </image>
@@ -45,12 +45,13 @@
                   <Font size="13.0" />
                </font>
             </Label>
-            <TextField layoutX="228.0" layoutY="84.0" prefHeight="25.0" prefWidth="249.0" promptText="course name" />
-            <TextArea layoutX="106.0" layoutY="127.0" prefHeight="154.0" prefWidth="420.0" />
-            <Button layoutX="492.0" layoutY="84.0" mnemonicParsing="false" style="-fx-background-color: #ff4d00;" text="GO" textFill="WHITE">
+            <TextField fx:id="courseNameTextField" layoutX="228.0" layoutY="84.0" prefHeight="25.0" prefWidth="249.0" promptText="Course name" />
+            <TextArea fx:id="studentsTextArea" editable="false" layoutX="106.0" layoutY="138.0" prefHeight="144.0" prefWidth="420.0" />
+            <Button fx:id="goButton" layoutX="492.0" layoutY="84.0" mnemonicParsing="false" onAction="#goButtonOnAction" style="-fx-background-color: #ff4d00;" text="GO" textFill="WHITE">
                <font>
                   <Font name="System Bold" size="12.0" />
                </font></Button>
+            <Label fx:id="courseMessageLabel" alignment="CENTER" layoutX="108.0" layoutY="115.0" prefHeight="18.0" prefWidth="416.0" textFill="RED" />
          </children>
       </AnchorPane>
    </center>

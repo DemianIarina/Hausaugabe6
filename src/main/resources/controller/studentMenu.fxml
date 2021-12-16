@@ -19,7 +19,7 @@
                         <Font name="System Bold" size="24.0" />
                     </font>
                 </Label>
-            <ImageView fitHeight="64.0" fitWidth="69.0" layoutX="25.0" layoutY="17.0">
+            <ImageView fx:id="studentImageView" fitHeight="64.0" fitWidth="69.0" layoutX="25.0" layoutY="17.0">
                <image>
                   <Image url="@../../../../images/student.png" />
                </image>
@@ -35,7 +35,7 @@
                         <Font size="18.0" />
                     </font>
                 </Label>
-                <ImageView fitHeight="48.0" fitWidth="46.0" layoutX="53.0" layoutY="25.0">
+                <ImageView fx:id="checkImageView1" fitHeight="48.0" fitWidth="46.0" layoutX="53.0" layoutY="25.0">
                     <image>
                         <Image url="@../../../../images/check.png" />
                     </image>
@@ -55,7 +55,7 @@
                   <Font size="18.0" />
                </font>
             </Label>
-            <ImageView fitHeight="48.0" fitWidth="46.0" layoutX="53.0" layoutY="129.0">
+            <ImageView fx:id="checkImageView2" fitHeight="48.0" fitWidth="46.0" layoutX="53.0" layoutY="129.0">
                <image>
                   <Image url="@../../../../images/check.png" />
                </image>
@@ -64,7 +64,7 @@
             <TextArea layoutX="184.0" layoutY="178.0" prefHeight="24.0" prefWidth="65.0" />
             <Button layoutX="300.0" layoutY="175.0" mnemonicParsing="false" prefHeight="41.0" prefWidth="30.0" style="-fx-background-color: #ff4d00;">
                <graphic>
-                  <ImageView fitHeight="35.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fx:id="refreshImageView" fitHeight="35.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../../../../images/refresh.png" />
                      </image>

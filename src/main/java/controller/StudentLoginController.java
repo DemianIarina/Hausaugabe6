@@ -1,7 +1,10 @@
 package controller;
 
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
@@ -62,9 +65,27 @@ public class StudentLoginController implements Initializable{
     public void validateLogin(){
         if(Objects.equals(nameTextField.getText(), "Maria")){
             loginMessageLabel.setText("Congratulations!");
+            createStudentMenuWindow();
         }
         else {
             loginMessageLabel.setText("Invalid login. Please try again.");
+        }
+    }
+
+    public void createStudentMenuWindow(){
+        try{
+            URL fxmlLocation = GUI.class.getResource("studentMenu.fxml");
+            FXMLLoader loader = new FXMLLoader(fxmlLocation);
+            Parent root = loader.load();
+
+            Stage teacherLoginStage = new Stage();
+            teacherLoginStage.setTitle("Student menu");
+            teacherLoginStage.setScene(new Scene(root, 600, 400));
+            teacherLoginStage.show();
+
+        }catch (Exception e){
+            e.printStackTrace();
+            e.getCause();
         }
     }
 }

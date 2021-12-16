@@ -55,7 +55,7 @@ public class LoginController implements Initializable {
 
             Stage studentLoginStage = new Stage();
             studentLoginStage.setTitle("Teacher login");
-            studentLoginStage.setScene(new Scene(root, 601, 304));
+            studentLoginStage.setScene(new Scene(root, 554, 331));
             studentLoginStage.show();
 
         }catch (Exception e){
