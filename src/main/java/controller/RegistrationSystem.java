@@ -4,6 +4,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 
+import model.Pair;
 import model.Teacher;
 import model.Course;
 import model.Student;
@@ -14,6 +15,7 @@ import repository.TeacherRepository;
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Represents all the actions of an university, that can be acted upon the 3 repositorys - courses, teachers and students
@@ -42,24 +44,23 @@ public class RegistrationSystem {
      * @throws IllegalArgumentException if the given student or course does not exist in the according repository
      */
     public boolean register(Course course, Student student) throws IllegalArgumentException {
-        if(!students.getAll().contains(student)){
-            throw new IllegalArgumentException("No such student");
+        if(students.getAll().stream().noneMatch(elem -> elem.getId() == student.getId())){
+            throw new NonexistentArgumentException("No such student");
         }
         else
-        if(!courses.getAll().contains(course)){
-            throw new IllegalArgumentException("No such course");
+        if(courses.getAll().stream().noneMatch(elem -> elem.getId() == course.getId())){
+            throw new NonexistentArgumentException("No such course");
         }
         else {
 
             //update students REPO
-
             //update the course list of the student
             student.addCourse(course);
             students.update(student);
 
 
             //update course REPO
-            course.addStudent(student);
+            course.addStudent(student.getId());
             courses.update(course);        //update the students list of the course
 
             return true;
@@ -71,15 +72,9 @@ public class RegistrationSystem {
      * @return a list of courses
      */
     public List<Course> retriveCoursesWithFreePlaces(){
-        List<Course> freePlacesCourses = new ArrayList<>();
-        for (Course course : courses.getAll()){
-            int freePlaces = course.getMaxEnrollment() - course.getStudentsEnrolled().size();
-            if(freePlaces > 0){
-                freePlacesCourses.add(course);
-            }
-        }
-        //TODO in View display nr of free places
-        return freePlacesCourses;
+        return courses.getAll().stream()
+                .filter(elem -> elem.getMaxEnrollment()-elem.getStudentsEnrolledId().size() >0)
+                .collect(Collectors.toList());
     }
 
     /***
@@ -88,12 +83,12 @@ public class RegistrationSystem {
      * @return a list of students
      * @throws IllegalArgumentException if the given course does not exist is the courses repository
      */
-    public List<Student> retrieveStudentsEnrolledForACourse(Course course) throws IllegalArgumentException{
-        if(courses.getAll().contains(course)){
-            return course.getStudentsEnrolled();
+    public List<Integer> retrieveStudentsEnrolledForACourse(Course course) throws IllegalArgumentException{
+        if(courses.getAll().stream().anyMatch(elem -> elem.getId() == course.getId())){
+            return course.getStudentsEnrolledId();
         }
         else
-            throw new IllegalArgumentException("No such course");
+            throw new NonexistentArgumentException("No such course");
     }
 
     /**
@@ -113,29 +108,39 @@ public class RegistrationSystem {
      */
     public List<Course> deleteCourse(Course course) throws IllegalArgumentException{
         if(courses.getAll().contains(course)){
-            //delete from the teacher REPO
-            Teacher teacher = (Teacher) course.getTeacher();
-            teacher.removeCourse(course);
-            teachers.update(teacher);
-
             for (Student student: students.getAll()){       //delete from every student's list, the course
-                List<Course> studentCourses = student.getEnrolledCourses();
+                List<Integer> enrolledCoursesId = student.getEnrolledCourses().stream()          //from the pairs, get only the id
+                        .map(Pair::getCourseId)
+                        .collect(Collectors.toList());
 
-                if(studentCourses.contains(course)){
+                if(enrolledCoursesId.contains(course.getId())){
                     student.removeCourse(course);
 
                     //update the students REPO
-                    students.update(student);
+                    students.update(student);   //we only set the totalCredits ad delete the course from the students list
+                    // from the database it is not deleted yet -> the delete course will do that
                 }
             }
+
+            //delete from the teacher REPO
+            int teacherId = course.getIdTeacher();
+
+            Teacher teacher = teachers.getAll().stream()
+                    .filter(elem -> elem.getId() == teacherId)
+                    .findAny()
+                    .orElse(null);
+            assert teacher != null;
+            teacher.removeCourse(course.getId());
+            teachers.update(teacher);
 
             //delete from the course REPO
             courses.delete(course);
 
+
             return courses.getAll();
         }
         else {
-            throw new IllegalArgumentException("No such course");
+            throw new NonexistentArgumentException("No such course");
         }
 
     }
@@ -149,13 +154,32 @@ public class RegistrationSystem {
      * @return the updated list of courses
      */
     public List<Course> updateCreditsCourse(Course course, int newCredits){
+        List<Integer> toUnenrollStudents = new ArrayList<>();
+
         if(courses.getAll().contains(course)) {
             //update student REPO
-            for (Student student : course.getStudentsEnrolled()) {
-                if (student.getEnrolledCourses().contains(course)) {
-                    student.updateCredits(course, newCredits);
-                    students.update(student);
+            for (int studentId : course.getStudentsEnrolledId()) {
+                Student student = students.getAll().stream()
+                        .filter(elem -> elem.getId() == studentId)
+                        .findAny()
+                        .orElse(null);
+                try{
+
+                    assert student != null;
+                    if(student.getEnrolledCourses().stream().anyMatch(elem -> elem.getCourseId() == course.getId())) {
+                        student.updateCredits(course, newCredits);
+                        students.update(student);
+                    }
                 }
+                catch (TooManyCreditsException e){
+                    System.out.println("Credit limit exceded for a student:" + e);
+                    int problemStudentId = e.getId();
+                    toUnenrollStudents.add(problemStudentId);
+                }
+            }
+            if(toUnenrollStudents.size()>0){
+                course.getStudentsEnrolledId().removeAll(toUnenrollStudents);
+                courses.update(course);
             }
 
             //credits number will be updated automatic in the Courses in every repo
@@ -166,7 +190,7 @@ public class RegistrationSystem {
             return courses.getAll();
         }
         else{
-            throw new IllegalArgumentException("No such course");
+            throw new NonexistentArgumentException("No such course");
         }
     }
 

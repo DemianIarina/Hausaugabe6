@@ -9,9 +9,9 @@ public class StudentsDao {
     private List<Student> students = new ArrayList<>();
 
     public StudentsDao(){
-        students.add(new Student("Mihai", "Dinero", 101));
-        students.add(new Student("Matei", "Rus", 102));
-        students.add(new Student("Mihaela", "Pop", 103));
+        students.add(new Student(1, "Mihai", "Dinero", 101, 0));
+        students.add(new Student(2, "Matei", "Rus", 102, 0));
+        students.add(new Student(3, "Mihaela", "Pop", 103, 0));
     }
 
     public List<Student> getStudents() {

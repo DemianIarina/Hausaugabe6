@@ -1,15 +1,26 @@
 package controller;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextArea;
+import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import model.Student;
+import repository.StudentRepository;
 
 import java.io.File;
 import java.net.URL;
+import java.util.Objects;
 import java.util.ResourceBundle;
 
 public class StudentMenuController implements Initializable {
+    final StudentRepository studentRepository = new StudentRepository();
+    ObservableList<Student> students = FXCollections.observableArrayList(studentRepository.getAll());
+
     @FXML
     private ImageView studentImageView;
 
@@ -20,7 +31,23 @@ public class StudentMenuController implements Initializable {
     private ImageView checkImageView2;
 
     @FXML
-    private ImageView refreshImageView;
+    private TextField courseTextField;
+
+    @FXML
+    private Label registerMessageLabel;
+
+    @FXML
+    private TextArea creditsTextArea;
+
+
+    public void registerButtonOnAction(){
+        if(!courseTextField.getText().isBlank()){
+            validateRegister();
+        }
+        else{
+            registerMessageLabel.setText("Please enter a course name");
+        }
+    }
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -34,11 +61,20 @@ public class StudentMenuController implements Initializable {
         checkImageView1.setImage(checkImage);
         checkImageView2.setImage(checkImage);
 
-        File refreshFile = new File("images/refresh.png");
-        Image refreshImage = new Image(refreshFile.toURI().toString());
-        refreshImageView.setImage(refreshImage);
+        creditsTextArea.setEditable(false);
+        creditsTextArea.setText("0");
+
     }
 
+    public void validateRegister(){
+        if(Objects.equals(courseTextField.getText(), "BD")){
+            //todo apelat registration system
+            registerMessageLabel.setText("Congratulations!");
+        }
+        else {
+            registerMessageLabel.setText("Invalid course name. Please try again.");
+        }
+    }
 
 
 }

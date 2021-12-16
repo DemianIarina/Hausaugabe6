@@ -8,8 +8,11 @@ import java.util.Objects;
  * Represents an in memory repository for courses
  */
 public class CourseRepository extends InMemoryRepository<Course> {
+    private CourseDao courseDao = new CourseDao();
+
     public CourseRepository() {
         super();
+        repoList = courseDao.getCourses();
     }
 
     /**
@@ -20,11 +23,11 @@ public class CourseRepository extends InMemoryRepository<Course> {
     @Override
     public Course update(Course obj) {
         Course courseToUpdate = this.repoList.stream()
-                .filter(course -> Objects.equals(course.getName(), obj.getName()) && course.getTeacher() == obj.getTeacher())
+                .filter(course -> course.getId() == obj.getId())
                 .findFirst()
                 .orElseThrow();
 
-        courseToUpdate.setStudentsEnrolled(obj.getStudentsEnrolled());
+        courseToUpdate.setStudentsEnrolledId(obj.getStudentsEnrolledId());
 
         return courseToUpdate;
     }
@@ -36,7 +39,7 @@ public class CourseRepository extends InMemoryRepository<Course> {
      */
     public Course updateCredits(Course obj) {
         Course courseToUpdate = this.repoList.stream()
-                .filter(course -> Objects.equals(course.getName(), obj.getName()) && course.getTeacher() == obj.getTeacher())
+                .filter(course -> course.getId() == obj.getId())
                 .findFirst()
                 .orElseThrow();
 

@@ -2,40 +2,67 @@ package model;
 
 import controller.AlreadyExistingException;
 import controller.FullCourseException;
+import controller.NonexistentArgumentException;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class Course {
+/**
+ * Represents a subject taught in a university by one specific teacher, and has a credits value
+ * There can be none to as many students enrolled, as in maxEnrolled specified
+ */
+public class Course implements Comparable<Course>{
+    private int id;
     private String name;
-    private Person teacher;
+    private int idTeacher;
     private int maxEnrollment;
-    private List<Student> studentsEnrolled;
+    private List<Integer> studentsEnrolledId;
     private int credits;
 
-    public Course(String name, Person teacher, int maxEnrollment, int credits) {
+    public Course(int id,String name, int idTeacher, int maxEnrollment, int credits) {
+        this.id = id;
         this.name = name;
-        this.teacher = teacher;
+        this.idTeacher = idTeacher;
         this.maxEnrollment = maxEnrollment;
         this.credits = credits;
-        this.studentsEnrolled = new ArrayList<>();
+        this.studentsEnrolledId = new ArrayList<>();
     }
+
+    public Course(int id, int credits){
+        this.id = id;
+        this.credits = credits;
+    }
+
+
+    public Course(){}
 
     /**
      * Adds a new student to the course list
-     * @param student a new student object
+     * @param studentId a new student id
      * @throws AlreadyExistingException if the student already enrolled in the course is
      * @throws FullCourseException if the max number of enrolled students has been reached
      */
-    public void addStudent(Student student) throws AlreadyExistingException, FullCourseException{
-        if(studentsEnrolled.contains(student)){
-            throw new AlreadyExistingException("Already registered to this course");  //TODO: try-cach o faci unde apelezi functioa
+    public void addStudent(int studentId) throws AlreadyExistingException, FullCourseException{
+        if(studentsEnrolledId.contains(studentId)){
+            throw new AlreadyExistingException("Already registered to this course");
         }
         else
-        if(studentsEnrolled.size() == maxEnrollment){
-            throw new FullCourseException("The course has no places available");  //TODO: try-cach care sa reapeleze functioa cu alt curs, da cu acelasi student
+        if(studentsEnrolledId.size() == maxEnrollment){
+            throw new FullCourseException("The course has no places available");
         }
-        studentsEnrolled.add(student);
+        studentsEnrolledId.add(studentId);
+    }
+
+    /**
+     * removes a student from the students list
+     * @param studentId the students id to be removed
+     * @throws NonexistentArgumentException if the student is not enrolled to the course
+     */
+    public void removeStudent(int studentId) throws NonexistentArgumentException {
+        if(!studentsEnrolledId.contains(studentId)){
+            throw new AlreadyExistingException("Not registered to this course");
+        }
+        studentsEnrolledId.remove(Integer.valueOf(studentId));
     }
 
     public String getName() {
@@ -46,12 +73,12 @@ public class Course {
         this.name = name;
     }
 
-    public Person getTeacher() {
-        return teacher;
+    public int getIdTeacher() {
+        return idTeacher;
     }
 
-    public void setTeacher(Person teacher) {
-        this.teacher = teacher;
+    public void setIdTeacher(int idTeacher) {
+        this.idTeacher = idTeacher;
     }
 
     public int getMaxEnrollment() {
@@ -62,12 +89,12 @@ public class Course {
         this.maxEnrollment = maxEnrollment;
     }
 
-    public List<Student> getStudentsEnrolled() {
-        return studentsEnrolled;
+    public List<Integer> getStudentsEnrolledId() {
+        return studentsEnrolledId;
     }
 
-    public void setStudentsEnrolled(List<Student> studentsEnrolled) {
-        this.studentsEnrolled = studentsEnrolled;
+    public void setStudentsEnrolledId(List<Integer> studentsEnrolledId) {
+        this.studentsEnrolledId = studentsEnrolledId;
     }
 
     public int getCredits() {
@@ -78,14 +105,33 @@ public class Course {
         this.credits = credits;
     }
 
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
     @Override
     public String toString() {
         return "Course{" +
-                "name='" + name + '\'' +
-                ", teacher=" + teacher +
+                "id = "+ id +
+                ", name='" + name + '\'' +
+                ", idTeacher=" + idTeacher+
                 ", maxEnrollment=" + maxEnrollment +
-                ", studentsEnrolled=" + studentsEnrolled +
+                ", studentsEnrolledId=" + studentsEnrolledId +
                 ", credits=" + credits +
                 '}';
+    }
+
+    /**
+     * Function to compare two instances of Course, according to name
+     * @param course2 another object of type Course
+     * @return a negative integer, zero, or a positive integer as this object is less than, equal to, or greater than the specified object.
+     */
+    @Override
+    public int compareTo(Course course2) {
+        return this.getName().compareTo(course2.getName());
     }
 }

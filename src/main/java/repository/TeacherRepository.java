@@ -8,9 +8,11 @@ import java.util.Objects;
  *  Represents an in memory repository for teachers
  */
 public class TeacherRepository extends InMemoryRepository<Teacher> {
+    private TeacherDao teacherDao= new TeacherDao();
 
     public TeacherRepository() {
         super();
+        repoList = teacherDao.getTeachers();
     }
 
     /**
@@ -21,7 +23,7 @@ public class TeacherRepository extends InMemoryRepository<Teacher> {
     @Override
     public Teacher update(Teacher obj) {    //used by updating the number of credits of a course
         Teacher teacherToUpdate = this.repoList.stream()
-                .filter(teacher -> Objects.equals(teacher.getFirstName(), obj.getFirstName()) && Objects.equals(teacher.getLastName(), obj.getLastName()))
+                .filter(teacher -> teacher.getId() == obj.getId())
                 .findFirst()
                 .orElseThrow();
 

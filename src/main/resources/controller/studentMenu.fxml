@@ -45,8 +45,8 @@
                         <Font size="13.0" />
                     </font>
                 </Label>
-                <TextField layoutX="228.0" layoutY="84.0" prefHeight="25.0" prefWidth="249.0" promptText="course name" />
-                <Button layoutX="492.0" layoutY="84.0" mnemonicParsing="false" style="-fx-background-color: #ff4d00;" text="GO" textFill="WHITE">
+                <TextField fx:id="courseTextField" layoutX="228.0" layoutY="84.0" prefHeight="25.0" prefWidth="218.0" promptText="course name" />
+                <Button fx:id="registerButton" layoutX="463.0" layoutY="83.0" mnemonicParsing="false" onAction="#registerButtonOnAction" style="-fx-background-color: #ff4d00;" text="Register" textFill="WHITE">
                <font>
                   <Font name="System Bold" size="13.0" />
                </font></Button>
@@ -61,16 +61,8 @@
                </image>
             </ImageView>
             <Label layoutX="107.0" layoutY="177.0" prefHeight="39.0" prefWidth="77.0" text="Total credits: " />
-            <TextArea layoutX="184.0" layoutY="178.0" prefHeight="24.0" prefWidth="65.0" />
-            <Button layoutX="300.0" layoutY="175.0" mnemonicParsing="false" prefHeight="41.0" prefWidth="30.0" style="-fx-background-color: #ff4d00;">
-               <graphic>
-                  <ImageView fx:id="refreshImageView" fitHeight="35.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../../../../images/refresh.png" />
-                     </image>
-                  </ImageView>
-               </graphic>
-            </Button>
+            <TextArea fx:id="creditsTextArea" editable="false" layoutX="184.0" layoutY="180.0" prefHeight="35.0" prefWidth="57.0" />
+            <Label fx:id="registerMessageLabel" alignment="CENTER" layoutX="227.0" layoutY="110.0" prefHeight="17.0" prefWidth="216.0" textFill="RED" />
             </children>
         </AnchorPane>
     </center>
