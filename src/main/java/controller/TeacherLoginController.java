@@ -11,6 +11,9 @@ import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
+import model.Teacher;
+import repository.StudentRepository;
+import repository.TeacherRepository;
 
 import java.io.File;
 import java.net.URL;
@@ -18,6 +21,8 @@ import java.util.Objects;
 import java.util.ResourceBundle;
 
 public class TeacherLoginController implements Initializable {
+    final TeacherRepository teacherRepository = new TeacherRepository();
+
     @FXML
     private Button cancelButton;
 
@@ -64,16 +69,16 @@ public class TeacherLoginController implements Initializable {
     }
 
     public void validateLogin(){
-        if(Objects.equals(nameTextField.getText(), "Maria")){
+        if(teacherRepository.getAll().stream().anyMatch(elem -> Objects.equals(elem.getFirstName(), nameTextField.getText()))){
             loginMessageLabel.setText("Congratulations!");
-            createTeacherMenuWindow();
+            createTeacherMenuWindow(nameTextField.getText());
         }
         else {
             loginMessageLabel.setText("Invalid login. Please try again.");
         }
     }
 
-    public void createTeacherMenuWindow(){
+    public void createTeacherMenuWindow(String teacherName){
         try{
             URL fxmlLocation = GUI.class.getResource("teacherMenu.fxml");
             FXMLLoader loader = new FXMLLoader(fxmlLocation);
@@ -82,6 +87,10 @@ public class TeacherLoginController implements Initializable {
             Stage teacherLoginStage = new Stage();
             teacherLoginStage.setTitle("Teacher menu");
             teacherLoginStage.setScene(new Scene(root, 600, 400));
+
+            TeacherMenuController controller = loader.getController();
+            controller.initData(teacherName);
+
             teacherLoginStage.show();
 
         }catch (Exception e){

@@ -30,28 +30,29 @@
    <center>
       <AnchorPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
          <children>
-            <Label layoutX="107.0" layoutY="25.0" prefHeight="41.0" prefWidth="350.0" text="See all registered students for a course">
+            <Label layoutX="104.0" layoutY="34.0" prefHeight="41.0" prefWidth="350.0" text="See all registered students for a course">
                <font>
                   <Font size="18.0" />
                </font>
             </Label>
-            <ImageView fx:id="checkImageView" fitHeight="48.0" fitWidth="46.0" layoutX="53.0" layoutY="25.0">
+            <ImageView fx:id="checkImageView" fitHeight="48.0" fitWidth="46.0" layoutX="50.0" layoutY="34.0">
                <image>
                   <Image url="@../../../../images/check.png" />
                </image>
             </ImageView>
-            <Label layoutX="107.0" layoutY="87.0" prefHeight="17.0" prefWidth="118.0" text="Enter course name:">
+            <Label layoutX="104.0" layoutY="96.0" prefHeight="17.0" prefWidth="118.0" text="Enter course name:">
                <font>
                   <Font size="13.0" />
                </font>
             </Label>
-            <TextField fx:id="courseNameTextField" layoutX="228.0" layoutY="84.0" prefHeight="25.0" prefWidth="249.0" promptText="Course name" />
-            <TextArea fx:id="studentsTextArea" editable="false" layoutX="106.0" layoutY="138.0" prefHeight="144.0" prefWidth="420.0" />
-            <Button fx:id="goButton" layoutX="492.0" layoutY="84.0" mnemonicParsing="false" onAction="#goButtonOnAction" style="-fx-background-color: #ff4d00;" text="GO" textFill="WHITE">
+            <TextField fx:id="courseNameTextField" layoutX="225.0" layoutY="93.0" prefHeight="25.0" prefWidth="249.0" promptText="Course name" />
+            <TextArea fx:id="studentsTextArea" editable="false" layoutX="103.0" layoutY="147.0" prefHeight="144.0" prefWidth="420.0" />
+            <Button fx:id="goButton" layoutX="489.0" layoutY="93.0" mnemonicParsing="false" onAction="#goButtonOnAction" style="-fx-background-color: #ff4d00;" text="GO" textFill="WHITE">
                <font>
                   <Font name="System Bold" size="12.0" />
                </font></Button>
             <Label fx:id="courseMessageLabel" alignment="CENTER" layoutX="108.0" layoutY="115.0" prefHeight="18.0" prefWidth="416.0" textFill="RED" />
+            <Label fx:id="teacherNameLabel" layoutX="50.0" layoutY="5.0" prefHeight="18.0" prefWidth="250.0" textFill="#805e00" />
          </children>
       </AnchorPane>
    </center>
