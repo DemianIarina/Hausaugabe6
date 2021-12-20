@@ -13,6 +13,7 @@ public class CourseDao {
         Course course = new Course(1,"c1", 1, 2, 10);
         Course course2 = new Course(2,"c2", 1, 2, 10);
         Course course3 = new Course(3,"c3", 2, 2, 11);
+        course3.setStudentsEnrolledId(new ArrayList<>(List.of(101,102)));
         courses.add(course);
         courses.add(course2);
         courses.add(course3);

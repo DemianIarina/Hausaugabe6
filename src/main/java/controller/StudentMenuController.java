@@ -98,6 +98,10 @@ public class StudentMenuController implements Initializable {
                 registerMessageLabel.setText("Credit limits been reached. \n" +
                         "Can not enroll.");
             }
+            catch (FullCourseException e3){
+                registerMessageLabel.setText("Course has no free places. \n" +
+                        "Can not enroll.");
+            }
         }
     }
 

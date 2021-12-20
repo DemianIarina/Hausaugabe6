@@ -8,6 +8,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import model.Course;
+import model.Student;
 import model.Teacher;
 import repository.CourseRepository;
 import repository.StudentRepository;
@@ -15,8 +16,8 @@ import repository.TeacherRepository;
 
 import java.io.File;
 import java.net.URL;
-import java.util.Objects;
-import java.util.ResourceBundle;
+import java.util.*;
+import java.util.stream.Collectors;
 
 public class TeacherMenuController  implements Initializable {
     final StudentRepository studentRepository = new StudentRepository();
@@ -27,6 +28,8 @@ public class TeacherMenuController  implements Initializable {
     private Course teacherCourse;
 
     private Teacher loginedTeacher;
+
+    private List<Student> enrolledStudents;
 
     @FXML
     private ImageView teacherImageView;
@@ -51,7 +54,6 @@ public class TeacherMenuController  implements Initializable {
     public void goButtonOnAction(){
         if(!courseNameTextField.getText().isBlank()){
             validateCourse(courseNameTextField.getText());
-            studentsTextArea.setText(teacherCourse.getStudentsEnrolledId().toString());
         }
         else{
             courseMessageLabel.setText("Please enter a course name");
@@ -82,14 +84,34 @@ public class TeacherMenuController  implements Initializable {
 
         if(course == null){
             courseMessageLabel.setText("No such course. Please try again.");
+            studentsTextArea.setText("");
         }
         else {
             if(loginedTeacher.getCourses().stream().anyMatch(elem -> elem == course.getId())){
                 teacherCourse = course;
                 courseMessageLabel.setText("");
+                enrolledStudents = new ArrayList<>();
+
+                for(int id : teacherCourse.getStudentsEnrolledId()){
+                     Student enrolledStudent= studentRepository.getAll().stream()
+                            .filter(student -> student.getStudentId()==id)
+                            .findFirst()
+                             .orElse(null);
+                     enrolledStudents.add(enrolledStudent);
+                }
+                if(enrolledStudents.size()!=0){
+                    StringJoiner joiner = new StringJoiner("\n");
+                    enrolledStudents.stream().map(String::valueOf).forEach(joiner::add);
+                    studentsTextArea.setText(joiner.toString());
+                }
+                else{
+                    studentsTextArea.setText("No students enrolled yet");
+                }
+
             }
             else{
                 courseMessageLabel.setText("Course not thought by you. Please try again");
+                studentsTextArea.setText("");
             }
         }
     }

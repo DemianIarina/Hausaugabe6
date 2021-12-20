@@ -20,6 +20,7 @@ public class TeacherDao {
         Teacher teacher2 = new Teacher(2, "Maria", "Pop");
         teachers.add(teacher2);
         Course course3 = new Course(3,"c3", 2, 2, 11);
+        course3.setStudentsEnrolledId(new ArrayList<>(List.of(101,102)));
         teacher2.addCourse(course3.getId());
     }
 
