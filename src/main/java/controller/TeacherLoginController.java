@@ -11,8 +11,6 @@ import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
-import model.Teacher;
-import repository.StudentRepository;
 import repository.TeacherRepository;
 
 import java.io.File;
@@ -42,6 +40,10 @@ public class TeacherLoginController implements Initializable {
     @FXML
     private ImageView lockImageView;
 
+    /**
+     * It triggers when the button for login is pressed, and checks if the nameTextField was filled
+     * and if not, it shows a message
+     */
     public void loginButtonOnAction(){
         if(!nameTextField.getText().isBlank()){
             validateLogin();
@@ -51,6 +53,9 @@ public class TeacherLoginController implements Initializable {
         }
     }
 
+    /**
+     * It closes the window
+     */
     public void cancelButtonOnAction(){
         Stage stage = (Stage) cancelButton.getScene().getWindow();
         stage.close();
@@ -69,6 +74,10 @@ public class TeacherLoginController implements Initializable {
         lockImageView.setImage(lockImage);
     }
 
+    /**
+     * checks if the name is valid - it exists in the teacherRepository
+     * if not, shows a message
+     */
     public void validateLogin(){
         if(teacherRepository.getAll().stream().anyMatch(elem -> Objects.equals(elem.getFirstName(), nameTextField.getText()))){
             loginMessageLabel.setText("Congratulations!");
@@ -79,6 +88,10 @@ public class TeacherLoginController implements Initializable {
         }
     }
 
+    /**
+     * Creates the window for the logined teacher
+     * @param teacherName the name of the logined teacher
+     */
     public void createTeacherMenuWindow(String teacherName){
         try{
             URL fxmlLocation = GUI.class.getResource("teacherMenu.fxml");

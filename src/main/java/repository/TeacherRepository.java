@@ -2,10 +2,8 @@ package repository;
 
 import model.Teacher;
 
-import java.util.Objects;
-
 /**
- *  Represents an in memory repository for teachers
+ *  Represents an in memory repository for teachers, with predefined data from a teacher Dao
  */
 public class TeacherRepository extends InMemoryRepository<Teacher> {
     private TeacherDao teacherDao= new TeacherDao();

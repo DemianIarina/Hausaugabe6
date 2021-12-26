@@ -1,9 +1,5 @@
 package controller;
 
-import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.TextField;
-
 import model.Pair;
 import model.Teacher;
 import model.Course;
@@ -12,7 +8,6 @@ import repository.CourseRepository;
 import repository.StudentRepository;
 import repository.TeacherRepository;
 
-import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;

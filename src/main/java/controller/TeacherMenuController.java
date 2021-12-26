@@ -16,11 +16,9 @@ import repository.CourseRepository;
 import repository.StudentRepository;
 import repository.TeacherRepository;
 
-import javax.swing.text.PlainDocument;
 import java.io.File;
 import java.net.URL;
 import java.util.*;
-import java.util.stream.Collectors;
 
 public class TeacherMenuController  implements Initializable {
     StudentRepository studentRepository;
@@ -53,7 +51,10 @@ public class TeacherMenuController  implements Initializable {
     private Label teacherNameLabel;
 
 
-
+    /**
+     * It triggers when the button for seeing the students enrolled for a course is pressed
+     * and checks if the courseNameTextField was filled, and if not, it shows a message
+     */
     public void goButtonOnAction(){
         if(!courseNameTextField.getText().isBlank()){
             validateCourse(courseNameTextField.getText());
@@ -79,6 +80,11 @@ public class TeacherMenuController  implements Initializable {
 
     }
 
+    /**
+     * Checks all preconditions for seeing the enrolled students to a course:
+     * if the course with the name exists, if the course is thought by that person
+     * If there are no students enrolled, it shows a message
+     */
     public void validateCourse(String courseName){
         Course course = courseRepository.getAll().stream()
                 .filter(elem -> Objects.equals(elem.getName(), courseName))
@@ -128,6 +134,9 @@ public class TeacherMenuController  implements Initializable {
         }
     }
 
+    /**
+     * When any change happens to the course shown, it will refresh itself and show the new information
+     */
     private void updateStudentsEnrolledLabel() {
         Platform.runLater (new Runnable() {
             @Override

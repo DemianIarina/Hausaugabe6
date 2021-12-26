@@ -1,7 +1,5 @@
 package controller;
 
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
@@ -10,7 +8,6 @@ import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import model.Course;
-import model.CourseListener;
 import model.Student;
 import repository.CourseRepository;
 import repository.StudentRepository;
@@ -51,6 +48,10 @@ public class StudentMenuController implements Initializable {
     private TextArea creditsTextArea;
 
 
+    /**
+     * It triggers when the button for the registration for a course is pressed
+     * and checks if the courseTextField was filled, and if not, it shows a message
+     */
     public void registerButtonOnAction(){
         if(!courseTextField.getText().isBlank()){
             validateRegister();
@@ -76,6 +77,11 @@ public class StudentMenuController implements Initializable {
 
     }
 
+    /**
+     * Checks all preconditions for registering to a course:
+     * if the course with the name exists, if the student is already enrolled,
+     * if the credit limit has been reached, if the course has no free places
+     */
     public void validateRegister(){
         Course course = courseRepository.getAll().stream()
                 .filter(elem -> Objects.equals(elem.getName(), courseTextField.getText()))

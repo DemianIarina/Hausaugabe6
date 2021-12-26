@@ -3,20 +3,21 @@ package controller;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.ImageCursor;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 
 import java.io.File;
 import java.net.URL;
-import java.util.Objects;
 import java.util.ResourceBundle;
 
+/**
+ * represents the login scene controller, with the to options to sign in
+ * as student or as teacher
+ */
 public class LoginController implements Initializable {
     RegistrationSystem registrationSystem = new RegistrationSystem();
 
@@ -32,6 +33,10 @@ public class LoginController implements Initializable {
     @FXML
     private ImageView teacherImageView;
 
+    /**
+     * It triggers when the button for the students login is pressed
+     * It creates a Student Login scene
+     */
     public void pressLoginStudent(){
         try{
             URL fxmlLocation = GUI.class.getResource("studentLogin.fxml");
@@ -53,6 +58,10 @@ public class LoginController implements Initializable {
         }
     }
 
+    /**
+     * It triggers when the button for the teacher login is pressed
+     * It creates a Teacher Login scene
+     */
     public void pressLoginTeacher(){
         try{
             URL fxmlLocation = GUI.class.getResource("teacherLogin.fxml");

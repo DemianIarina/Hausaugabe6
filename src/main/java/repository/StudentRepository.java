@@ -3,7 +3,7 @@ package repository;
 import model.Student;
 
 /**
- *  Represents an in memory repository for students
+ *  Represents an in memory repository for students, with predefined data from a student Dao
  */
 public class StudentRepository extends InMemoryRepository<Student> {
     StudentsDao studentsDao = new StudentsDao();

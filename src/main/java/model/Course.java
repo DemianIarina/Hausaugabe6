@@ -39,6 +39,10 @@ public class Course implements Comparable<Course>{
 
     public Course(){}
 
+    /**
+     * adds a new listnere to its list, in order to know who to inform when a change happens
+     * @param courseListener the listener to be added
+     */
     public void addListener(CourseListener courseListener){
         listeners.add(courseListener);
     }

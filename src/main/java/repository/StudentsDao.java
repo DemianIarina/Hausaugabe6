@@ -5,6 +5,9 @@ import model.Student;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Represents creating a list of students from predefined data
+ */
 public class StudentsDao {
     private List<Student> students = new ArrayList<>();
 
@@ -18,6 +21,11 @@ public class StudentsDao {
         return students;
     }
 
+    /**
+     * adds a student to the list
+     * @param student the new to be added student
+     * @return true if the student was succesfully added, false otherwise
+     */
     public boolean addStudent(Student student){
         for(Student s: students){
             if(student.getLastName().equals(s.getLastName())){

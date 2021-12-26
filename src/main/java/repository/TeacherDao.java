@@ -1,12 +1,14 @@
 package repository;
 
 import model.Course;
-import model.Student;
 import model.Teacher;
 
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Represents creating a list of teachers from predefined data
+ */
 public class TeacherDao {
     private List<Teacher> teachers = new ArrayList<>();
 
@@ -28,6 +30,11 @@ public class TeacherDao {
         return teachers;
     }
 
+    /**
+     * adds a teacher to the list
+     * @param teacher the new to be added teacher
+     * @return true if the teacher was succesfully added, false otherwise
+     */
     public boolean addTeacher(Teacher teacher){
         for(Teacher t: teachers){
             if(teacher.getLastName().equals(t.getLastName())){

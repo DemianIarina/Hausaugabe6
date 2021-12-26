@@ -1,11 +1,13 @@
 package repository;
 
 import model.Course;
-import model.Teacher;
 
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Represents creating a list of courses from predefined data
+ */
 public class CourseDao {
     private List<Course> courses = new ArrayList<>();
 
@@ -23,6 +25,11 @@ public class CourseDao {
         return courses;
     }
 
+    /**
+     * adds a course to the list
+     * @param course the new to be added course
+     * @return true if the course was succesfully added, false otherwise
+     */
     public boolean addCourse(Course course){
         for(Course c: courses){
             if(course.getId()==c.getId()){

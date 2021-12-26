@@ -2,10 +2,8 @@ package repository;
 
 import model.Course;
 
-import java.util.Objects;
-
 /**
- * Represents an in memory repository for courses
+ * Represents an in memory repository for courses, with predefined data from a course Dao
  */
 public class CourseRepository extends InMemoryRepository<Course> {
     private CourseDao courseDao = new CourseDao();

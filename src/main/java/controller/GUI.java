@@ -32,7 +32,7 @@ public class GUI extends Application {
 
         Parent root = loader.load();
         primaryStage.setTitle("Login As");
-        primaryStage.setScene(new Scene(root, 601, 304));
+        primaryStage.setScene(new Scene(root, 601, 304));   //creating the login scene
 
         LoginController controller = loader.getController();
         controller.initData(registrationSystem);
