@@ -21,7 +21,8 @@ import java.util.Objects;
 import java.util.ResourceBundle;
 
 public class TeacherLoginController implements Initializable {
-    final TeacherRepository teacherRepository = new TeacherRepository();
+    RegistrationSystem registrationSystem;
+    TeacherRepository teacherRepository;
 
     @FXML
     private Button cancelButton;
@@ -89,7 +90,7 @@ public class TeacherLoginController implements Initializable {
             teacherLoginStage.setScene(new Scene(root, 600, 400));
 
             TeacherMenuController controller = loader.getController();
-            controller.initData(teacherName);
+            controller.initData(teacherName, registrationSystem);
 
             teacherLoginStage.show();
 
@@ -97,5 +98,10 @@ public class TeacherLoginController implements Initializable {
             e.printStackTrace();
             e.getCause();
         }
+    }
+
+    public void initData(RegistrationSystem registrationSystem) {
+        this.registrationSystem = registrationSystem;
+        teacherRepository = registrationSystem.getTeachers();
     }
 }

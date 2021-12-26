@@ -23,8 +23,8 @@ import java.util.Objects;
 import java.util.ResourceBundle;
 
 public class StudentLoginController implements Initializable{
-    final StudentRepository studentRepository = new StudentRepository();
-    ObservableList<Student> students = FXCollections.observableArrayList(studentRepository.getAll());
+    RegistrationSystem registrationSystem;
+    StudentRepository studentRepository;
 
     @FXML
     private Button cancelButton;
@@ -89,7 +89,7 @@ public class StudentLoginController implements Initializable{
             teacherLoginStage.setScene(new Scene(root, 554, 414));
 
             StudentMenuController controller = loader.getController();
-            controller.initData(studentName);
+            controller.initData(studentName, registrationSystem);
 
             teacherLoginStage.show();
 
@@ -97,5 +97,10 @@ public class StudentLoginController implements Initializable{
             e.printStackTrace();
             e.getCause();
         }
+    }
+
+    public void initData(RegistrationSystem registrationSystem) {
+        this.registrationSystem = registrationSystem;
+        this.studentRepository = registrationSystem.getStudents();
     }
 }

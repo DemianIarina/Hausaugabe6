@@ -31,6 +31,29 @@ public class RegistrationSystem {
         this.teachers = teachers;
     }
 
+    public CourseRepository getCourses() {
+        return courses;
+    }
+
+    public void setCourses(CourseRepository courses) {
+        this.courses = courses;
+    }
+
+    public StudentRepository getStudents() {
+        return students;
+    }
+
+    public void setStudents(StudentRepository students) {
+        this.students = students;
+    }
+
+    public TeacherRepository getTeachers() {
+        return teachers;
+    }
+
+    public void setTeachers(TeacherRepository teachers) {
+        this.teachers = teachers;
+    }
 
     public RegistrationSystem(){}
 

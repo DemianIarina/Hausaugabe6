@@ -19,6 +19,9 @@ public class Course implements Comparable<Course>{
     private List<Integer> studentsEnrolledId;
     private int credits;
 
+    //for the observer pattern - it can be only one courseListener
+    private final List<CourseListener> listeners = new ArrayList<>();
+
     public Course(int id,String name, int idTeacher, int maxEnrollment, int credits) {
         this.id = id;
         this.name = name;
@@ -36,6 +39,10 @@ public class Course implements Comparable<Course>{
 
     public Course(){}
 
+    public void addListener(CourseListener courseListener){
+        listeners.add(courseListener);
+    }
+
     /**
      * Adds a new student to the course list
      * @param studentId a new student id
@@ -51,6 +58,11 @@ public class Course implements Comparable<Course>{
             throw new FullCourseException("The course has no places available");
         }
         studentsEnrolledId.add(studentId);
+
+        //notify all listeners that a change has occurred
+        for (CourseListener courseListener : listeners){
+            courseListener.onStudentListChanged();
+        }
     }
 
     /**

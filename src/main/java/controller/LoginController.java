@@ -14,9 +14,11 @@ import javafx.stage.Stage;
 
 import java.io.File;
 import java.net.URL;
+import java.util.Objects;
 import java.util.ResourceBundle;
 
 public class LoginController implements Initializable {
+    RegistrationSystem registrationSystem = new RegistrationSystem();
 
     @FXML
     private Button loginStudent;
@@ -39,6 +41,10 @@ public class LoginController implements Initializable {
             Stage studentLoginStage = new Stage();
             studentLoginStage.setTitle("Student login");
             studentLoginStage.setScene(new Scene(root, 601, 304));
+
+            StudentLoginController controller = loader.getController();
+            controller.initData(registrationSystem);
+
             studentLoginStage.show();
 
         }catch (Exception e){
@@ -56,6 +62,10 @@ public class LoginController implements Initializable {
             Stage studentLoginStage = new Stage();
             studentLoginStage.setTitle("Teacher login");
             studentLoginStage.setScene(new Scene(root, 601, 304));
+
+            TeacherLoginController controller = loader.getController();
+            controller.initData(registrationSystem);
+
             studentLoginStage.show();
 
         }catch (Exception e){
@@ -73,5 +83,9 @@ public class LoginController implements Initializable {
         File teacherFile = new File("images/teacher.jpg");
         Image teacherImage = new Image(teacherFile.toURI().toString());
         teacherImageView.setImage(teacherImage);
+    }
+
+    public void initData(RegistrationSystem registrationSystem) {
+        this.registrationSystem = registrationSystem;
     }
 }

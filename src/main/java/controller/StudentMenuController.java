@@ -10,6 +10,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import model.Course;
+import model.CourseListener;
 import model.Student;
 import repository.CourseRepository;
 import repository.StudentRepository;
@@ -21,12 +22,10 @@ import java.util.Objects;
 import java.util.ResourceBundle;
 
 public class StudentMenuController implements Initializable {
-    final StudentRepository studentRepository = new StudentRepository();
-    final CourseRepository courseRepository = new CourseRepository();
-    final TeacherRepository teacherRepository = new TeacherRepository();
-    RegistrationSystem registrationSystem = new RegistrationSystem(courseRepository,studentRepository,teacherRepository);
-
-    //ObservableList<Student> students = FXCollections.observableArrayList(studentRepository.getAll());
+    StudentRepository studentRepository;
+    CourseRepository courseRepository;
+    TeacherRepository teacherRepository;
+    RegistrationSystem registrationSystem;
 
     private Student loginedStudent;
 
@@ -90,6 +89,7 @@ public class StudentMenuController implements Initializable {
                 registrationSystem.register(course, loginedStudent);
                 registerMessageLabel.setText("Congratulation you have been enrolled!");
                 creditsTextArea.setText(String.valueOf(loginedStudent.getTotalCredits()));
+
             } catch (AlreadyExistingException e) {
                 registerMessageLabel.setText("Already enrolled to this course. \n" +
                         "Please try again.");
@@ -106,7 +106,12 @@ public class StudentMenuController implements Initializable {
     }
 
 
-    public void initData(String studentName) {
+    public void initData(String studentName, RegistrationSystem registrationSystem) {
+        this.registrationSystem = registrationSystem;
+        studentRepository = registrationSystem.getStudents();
+        courseRepository = registrationSystem.getCourses();
+        teacherRepository = registrationSystem.getTeachers();
+
         loginedStudent = studentRepository.getAll().stream()
                 .filter(elem -> Objects.equals(elem.getFirstName(), studentName))
                 .findAny()
@@ -115,4 +120,6 @@ public class StudentMenuController implements Initializable {
         creditsTextArea.setText(String.valueOf(loginedStudent.getTotalCredits()));
         studentNameLabel.setText("Hello " + studentName + "!");
     }
+
+
 }
